@@ -1,6 +1,9 @@
 module guas.graphics.terminal;
 
+import std.string;
+import std.format;
 import raylib;
+import raymath;
 
 import guas.render;
 import guas.math.point;
@@ -10,6 +13,8 @@ class Terminal {
     Renderer _renderer;
     Point _dimens;
     Rect _bounds;
+    Point _cur;
+    Color _col;
 
     this(Renderer renderer, Point dimens) {
         _renderer = renderer;
@@ -35,6 +40,44 @@ class Terminal {
             _bounds.width + borderSize, _bounds.height + borderSize,
             GetColor(0x158e15ff));
 
-        _renderer.drawText("welcome to caustic", Vector2(_bounds.x, _bounds.y), GREEN);
+        // draw cursor
+        raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charSize, _bounds.y + _cur.y * _renderer._font.charSize,
+           cast(int) ( _renderer._font.charSize * 0.7), _renderer._font.charSize, _col);
+
+        setCursor(Point(0, 0));
+
+        setColor(GREEN);
+        // _renderer.drawText("welcome to caustic", Vector2(_bounds.x, _bounds.y), _col);
+        auto bips = ["/", "-", "\\", "|"];
+        auto ch = bips[(_renderer._frame / 2) % 4];
+        print(format("guas vterm engine: %s", ch));
+    }
+
+    void setCursor(Point pos) {
+        _cur = pos;
+    }
+
+    void setColor(Color col) {
+        _col = col;
+    }
+
+    void clear() {
+        _cur = Point(0, 0);
+        // TODO: clear buffer
+    }
+
+    void print(string text) {
+        for (int i = 0; i < text.length; i++) {
+            auto cvpos = getCurVpos();
+            _renderer.drawChar(text[i],
+                Vector2(_bounds.x + cvpos.x, _bounds.y + cvpos.y),
+                _col);
+            _cur.x += 1;
+        }
+    }
+
+    pragma(inline):
+    private Vector2 getCurVpos() {
+        return Vector2(_cur.x * _renderer._font.charSize, _cur.y * _renderer._font.charSize);
     }
 }

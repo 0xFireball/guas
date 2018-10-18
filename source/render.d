@@ -17,6 +17,7 @@ class Renderer {
     Point _size;
     TermFont _font;
     Terminal _term;
+    int _frame = 0;
 
     this(World world, Point size) {
         _world = world;
@@ -25,9 +26,10 @@ class Renderer {
         _size = size;
     }
 
-    /// initialize context
+    /// initialize graphics context
     void init() {
         raylib.InitWindow(_size.x, _size.y, "guas");
+        raylib.SetTargetFPS(30);
     }
 
     /// load resources
@@ -40,6 +42,7 @@ class Renderer {
 
     void render() {
         raylib.ClearBackground(_clearColor);
+        _frame++;
 
         if (_term !is null) {
             _term.render();
