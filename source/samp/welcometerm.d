@@ -4,7 +4,9 @@ import raylib;
 
 import guas.render;
 import guas.math.point;
+import guas.math.rect;
 import guas.graphics.terminal;
+import guas.graphics.frame;
 
 class WelcomeTerminal : Terminal {
     this(Renderer renderer, Point dimens) {
@@ -21,9 +23,14 @@ class WelcomeTerminal : Terminal {
             this.print("vterm ");
             this.setColor(GREEN);
             this.print("[engine]");
+            Frame frame = new Frame(this, Rect(0, 10, 16, 8));
+            frame.outline(GREEN);
+            this._frames.insertBack(frame);
+            this.setCursor(Point(0, 10));
+            this.print("frames.");
         }
         if (_renderer._frame == Renderer.framerate * 3) {
-            this.print("\n");
+            this.setCursor(Point(0, 2));
             this.setColor(RED);
             this.print("---- transmission ----\n");
             this.setColor(GRAY);
