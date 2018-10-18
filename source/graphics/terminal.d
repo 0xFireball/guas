@@ -32,12 +32,13 @@ class Terminal {
         _dimens = dimens;
     }
 
-    int fontSize() { return _renderer._font.charSize; }
+    pragma(inline):
+    Point charSize() { return Point(_renderer._font.charWidth, _renderer._font.charHeight); }
 
     /// initializes graphics for the terminal
     void init() {
         // draw centered terminal outline
-        Point size = Point(_dimens.x * _renderer._font.charSize, _dimens.y * _renderer._font.charSize);
+        Point size = Point(_dimens.x * _renderer._font.charWidth, _dimens.y * _renderer._font.charHeight);
         _bounds = Rect(
             cast(int) (_renderer._size.x / 2f - size.x / 2f),
             cast(int) (_renderer._size.y / 2f - size.y / 2f),
@@ -59,18 +60,18 @@ class Terminal {
         for (int i = 0; i < _buf.length; i++) {
             auto cx = i % _dimens.x;
             auto cy = i / _dimens.x;
-            raylib.DrawRectangle(_bounds.x + cx * _renderer._font.charSize, _bounds.y + cy * _renderer._font.charSize,
-                _renderer._font.charSize, _renderer._font.charSize, _buf[i].bg);
+            raylib.DrawRectangle(_bounds.x + cx * _renderer._font.charWidth, _bounds.y + cy * _renderer._font.charHeight,
+                _renderer._font.charWidth, _renderer._font.charHeight, _buf[i].bg);
             _renderer.drawChar(_buf[i].ch,
-                Vector2(_bounds.x + cx * _renderer._font.charSize, _bounds.y + cy * _renderer._font.charSize),
+                Vector2(_bounds.x + cx * _renderer._font.charWidth, _bounds.y + cy * _renderer._font.charHeight),
                 _buf[i].col);
         }
 
         // draw cursor
         auto cursorCol = _col;
         cursorCol.a = cast(ubyte) (128 + 127 * sin(_renderer._frame / 5f));
-        raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charSize, _bounds.y + _cur.y * _renderer._font.charSize,
-           cast(int) (_renderer._font.charSize * 0.7), _renderer._font.charSize, cursorCol);
+        raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charWidth, _bounds.y + _cur.y * _renderer._font.charHeight,
+           cast(int) (_renderer._font.charWidth * 0.9), _renderer._font.charHeight, cursorCol);
 
         // draw frames
         foreach (Frame f; _frames) {
@@ -127,6 +128,6 @@ class Terminal {
 
     pragma(inline):
     private Vector2 getCurVpos() {
-        return Vector2(_cur.x * _renderer._font.charSize, _cur.y * _renderer._font.charSize);
+        return Vector2(_cur.x * _renderer._font.charWidth, _cur.y * _renderer._font.charHeight);
     }
 }

@@ -23,7 +23,7 @@ class Frame : Renderable {
 
     void render() {
         // TODO
-        raylib.DrawRectangleLines(_term._bounds.x + bounds.x * _term.fontSize(), _term._bounds.y + bounds.y * _term.fontSize(),
-           bounds.width * _term.fontSize(), bounds.height * _term.fontSize(), _col);
+        raylib.DrawRectangleLines(_term._bounds.x + bounds.x * _term.charSize().x, _term._bounds.y + bounds.y * _term.charSize().y,
+           bounds.width * _term.charSize().x, bounds.height * _term.charSize().y, _col);
     }
 }

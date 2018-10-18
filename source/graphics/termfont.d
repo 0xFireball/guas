@@ -5,5 +5,6 @@ import raylib;
 struct TermFont {
     Texture2D texture;
     int gridSize;
-    int charSize;
+    int charWidth;
+    int charHeight;
 }

@@ -34,7 +34,7 @@ class Renderer {
     void load() {
         _font = TermFont(
             raylib.LoadTexture(Resources.path(R_FONT)),
-            16, 12
+            16, 12, 12
         );
     }
 
@@ -55,7 +55,7 @@ class Renderer {
         auto fontX = charId % _font.gridSize;
         auto fontY = charId / _font.gridSize;
         raylib.DrawTextureRec(_font.texture,
-            Rectangle(fontX * _font.charSize, fontY * _font.charSize, _font.charSize, _font.charSize),
+            Rectangle(fontX * _font.charWidth, fontY * _font.charHeight, _font.charWidth, _font.charHeight),
             pos, color);
     }
 
@@ -63,7 +63,7 @@ class Renderer {
         Vector2 offset = Vector2(0, 0);
         for (int i = 0; i < text.length; i++) {
             drawChar(text[i], Vector2Add(pos, offset), color);
-            offset = Vector2Add(offset, Vector2(cast(int) (_font.charSize * spacing), 0));
+            offset = Vector2Add(offset, Vector2(cast(int) (_font.charWidth * spacing), 0));
         }
     }
 }
