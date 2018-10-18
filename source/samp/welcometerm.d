@@ -16,6 +16,7 @@ class WelcomeTerminal : Terminal {
     override void update() {
         if (_renderer._frame == 0) {
             this.setColor(WHITE);
+            this.setBg(BLACK);
             this.setCursor(Point(0, 0));
             this.setColor(WHITE);
             this.print("guas ");
@@ -27,7 +28,11 @@ class WelcomeTerminal : Terminal {
             frame.outline(GREEN);
             this._frames.insertBack(frame);
             this.setCursor(Point(0, 10));
-            this.print("frames.");
+            this.setColor(GREEN);
+            this.setBg(BLUE);
+            this.print("frames.\n");
+            this.setBg(BLACK);
+            this.print("$5 - keyboard");
         }
         if (_renderer._frame == Renderer.framerate * 3) {
             this.setCursor(Point(0, 2));

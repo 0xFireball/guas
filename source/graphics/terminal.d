@@ -17,12 +17,14 @@ class Terminal {
     Rect _bounds;
     Point _cur;
     Color _col;
+    Color _bg;
     TermChar[] _buf;
     Array!Frame _frames;
 
     struct TermChar {
         char ch;
         Color col;
+        Color bg;
     }
 
     this(Renderer renderer, Point dimens) {
@@ -57,6 +59,8 @@ class Terminal {
         for (int i = 0; i < _buf.length; i++) {
             auto cx = i % _dimens.x;
             auto cy = i / _dimens.x;
+            raylib.DrawRectangle(_bounds.x + cx * _renderer._font.charSize, _bounds.y + cy * _renderer._font.charSize,
+                _renderer._font.charSize, _renderer._font.charSize, _buf[i].bg);
             _renderer.drawChar(_buf[i].ch,
                 Vector2(_bounds.x + cx * _renderer._font.charSize, _bounds.y + cy * _renderer._font.charSize),
                 _buf[i].col);
@@ -84,11 +88,15 @@ class Terminal {
         _col = col;
     }
 
+    void setBg(Color col) {
+        _bg = col;
+    }
+
     void clear() {
         _cur = Point(0, 0);
         // clear buffer
         for (int i = 0; i < _buf.length; i++) {
-            _buf[i] = TermChar(0, _col);
+            _buf[i] = TermChar(0, _col, _bg);
         }
     }
 
@@ -98,7 +106,7 @@ class Terminal {
             // _renderer.drawChar(text[i],
             //     Vector2(_bounds.x + cvpos.x, _bounds.y + cvpos.y),
             //     _col);
-            _buf[_cur.y * _dimens.x + _cur.x] = TermChar(text[i], _col);
+            _buf[_cur.y * _dimens.x + _cur.x] = TermChar(text[i], _col, _bg);
             // special characters
             switch (text[i]) {
                 default:
