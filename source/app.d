@@ -32,7 +32,7 @@ void main() {
         raylib.BeginDrawing();
 
         term.setColor(WHITE);
-        term.setCursor(Point(0, 0));
+        term.setCursor(Point(2, 2));
         term.setColor(WHITE);
         term.print("guas ");
         term.setColor(GREEN);

@@ -48,7 +48,7 @@ class Terminal {
 
         // draw buffer
         for (int i = 0; i < _buf.length; i++) {
-            auto cx = i % _dimens.y;
+            auto cx = i % _dimens.x;
             auto cy = i / _dimens.x;
             _renderer.drawChar(_buf[i].ch,
                 Vector2(_bounds.x + cx * _renderer._font.charSize, _bounds.y + cy * _renderer._font.charSize),
@@ -81,6 +81,11 @@ class Terminal {
             //     _col);
             _buf[_cur.y * _dimens.x + _cur.x] = TermChar(text[i], _col);
             _cur.x += 1;
+            // wrap
+            if (_cur.x > _dimens.x) {
+                _cur.y += 1;
+                _cur.x -= _dimens.x;
+            }
         }
     }
 
