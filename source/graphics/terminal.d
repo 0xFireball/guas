@@ -31,8 +31,10 @@ class Terminal {
     void render() {
         // TODO: do something useful
         enum int borderSize = 2;
-        raylib.DrawRectangle(_bounds.x - borderSize, _bounds.y - borderSize,
+        raylib.DrawRectangleLines(_bounds.x - borderSize, _bounds.y - borderSize,
             _bounds.width + borderSize, _bounds.height + borderSize,
-            Color(20, 160, 20));
+            GetColor(0x158e15ff));
+
+        _renderer.drawText("welcome to caustic", Vector2(_bounds.x, _bounds.y), GREEN);
     }
 }

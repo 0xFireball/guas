@@ -50,18 +50,18 @@ class Renderer {
         _term = term;
     }
 
-    void drawChar(char charId, Vector2 pos) {
+    void drawChar(char charId, Vector2 pos, Color color = WHITE) {
         auto fontX = charId % _font.gridSize;
         auto fontY = charId / _font.gridSize;
         raylib.DrawTextureRec(_font.texture,
             Rectangle(fontX * _font.charSize, fontY * _font.charSize, _font.charSize, _font.charSize),
-            pos, WHITE);
+            pos, color);
     }
 
-    void drawText(string text, Vector2 pos, float spacing = 1) {
+    void drawText(string text, Vector2 pos, Color color = WHITE, float spacing = 1) {
         Vector2 offset = Vector2(0, 0);
         for (int i = 0; i < text.length; i++) {
-            drawChar(text[i], Vector2Add(pos, offset));
+            drawChar(text[i], Vector2Add(pos, offset), color);
             offset = Vector2Add(offset, Vector2(cast(int) (_font.charSize * spacing), 0));
         }
     }
