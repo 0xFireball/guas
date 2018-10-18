@@ -1,6 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
+		"allegro": "4.0.3+5.2.0",
 		"raylib_d": "2.0.3"
 	}
 }
