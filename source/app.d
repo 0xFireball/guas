@@ -35,10 +35,10 @@ void main() {
         term.setCursor(Point(2, 2));
         term.setColor(WHITE);
         term.print("guas ");
+        term.setColor(GRAY);
+        term.print("vterm ");
         term.setColor(GREEN);
-        auto bips = ["/", "-", "\\", "|"];
-        auto ch = bips[(renderer._frame / 2) % 4];
-        term.print(format("vterm engine: %s", ch));
+        term.print("[engine]");
 
         renderer.render();
 

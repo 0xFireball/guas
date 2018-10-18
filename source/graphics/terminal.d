@@ -1,6 +1,7 @@
 module guas.graphics.terminal;
 
 import std.string;
+import std.math;
 import raylib;
 import raymath;
 
@@ -56,8 +57,10 @@ class Terminal {
         }
 
         // draw cursor
+        auto cursorCol = _col;
+        cursorCol.a = cast(ubyte) (128 + 127 * sin(_renderer._frame / 5f));
         raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charSize, _bounds.y + _cur.y * _renderer._font.charSize,
-           cast(int) ( _renderer._font.charSize * 0.7), _renderer._font.charSize, _col);
+           cast(int) (_renderer._font.charSize * 0.7), _renderer._font.charSize, cursorCol);
     }
 
     void setCursor(Point pos) {
