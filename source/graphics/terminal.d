@@ -15,6 +15,12 @@ class Terminal {
     Rect _bounds;
     Point _cur;
     Color _col;
+    TermChar[] _buf;
+
+    struct TermChar {
+        char ch;
+        Color col;
+    }
 
     this(Renderer renderer, Point dimens) {
         _renderer = renderer;
@@ -31,6 +37,7 @@ class Terminal {
             size.x,
             size.y
         );
+        _buf = new TermChar[_dimens.x * _dimens.y];
     }
 
     void render() {
@@ -40,17 +47,28 @@ class Terminal {
             _bounds.width + borderSize, _bounds.height + borderSize,
             GetColor(0x158e15ff));
 
+        // draw buffer
+        for (int i = 0; i < _buf.length; i++) {
+            auto cx = i % _dimens.y;
+            auto cy = i / _dimens.x;
+            _renderer.drawChar(_buf[i].ch,
+                Vector2(_bounds.x + cx * _renderer._font.charSize, _bounds.y + cy * _renderer._font.charSize),
+                _buf[i].col);
+        }
+
         // draw cursor
         raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charSize, _bounds.y + _cur.y * _renderer._font.charSize,
            cast(int) ( _renderer._font.charSize * 0.7), _renderer._font.charSize, _col);
 
         setCursor(Point(0, 0));
 
-        setColor(GREEN);
         // _renderer.drawText("welcome to caustic", Vector2(_bounds.x, _bounds.y), _col);
+        setColor(WHITE);
+        print("guas ");
+        setColor(GREEN);
         auto bips = ["/", "-", "\\", "|"];
         auto ch = bips[(_renderer._frame / 2) % 4];
-        print(format("guas vterm engine: %s", ch));
+        print(format("vterm engine: %s", ch));
     }
 
     void setCursor(Point pos) {
@@ -68,10 +86,11 @@ class Terminal {
 
     void print(string text) {
         for (int i = 0; i < text.length; i++) {
-            auto cvpos = getCurVpos();
-            _renderer.drawChar(text[i],
-                Vector2(_bounds.x + cvpos.x, _bounds.y + cvpos.y),
-                _col);
+            // auto cvpos = getCurVpos();
+            // _renderer.drawChar(text[i],
+            //     Vector2(_bounds.x + cvpos.x, _bounds.y + cvpos.y),
+            //     _col);
+            _buf[_cur.y * _dimens.x + _cur.x] = TermChar(text[i], _col);
             _cur.x += 1;
         }
     }
