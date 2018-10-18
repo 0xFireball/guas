@@ -19,9 +19,9 @@ void main() {
 
     // resources
     Resources.setPath("res/");
-    renderer.load();
 
     raylib.InitWindow(800, 600, "guas");
+    renderer.load();
     while (!raylib.WindowShouldClose()) {
         raylib.BeginDrawing();
 
