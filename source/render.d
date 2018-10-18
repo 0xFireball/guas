@@ -7,17 +7,27 @@ import raymath;
 
 import guas.game.world;
 import guas.graphics.termfont;
+import guas.graphics.terminal;
 import guas.resources;
+import guas.math.point;
 
 class Renderer {
     World _world;
     Color _clearColor;
+    Point _size;
     TermFont _font;
+    Terminal _term;
 
-    this(World world) {
+    this(World world, Point size) {
         _world = world;
         // _clearColor = Color(240, 240, 240);
         _clearColor = Color(20, 20, 20);
+        _size = size;
+    }
+
+    /// initialize context
+    void init() {
+        raylib.InitWindow(_size.x, _size.y, "guas");
     }
 
     /// load resources
@@ -30,8 +40,14 @@ class Renderer {
 
     void render() {
         raylib.ClearBackground(_clearColor);
-        drawChar('e', Vector2(100, 100));
-        drawText("hello, world!", Vector2(100, 120));
+
+        if (_term !is null) {
+            _term.render();
+        }
+    }
+
+    void setTerminal(Terminal term) {
+        _term = term;
     }
 
     void drawChar(char charId, Vector2 pos) {
