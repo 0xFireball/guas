@@ -1,6 +1,7 @@
 module guas.app;
 
 import std.stdio;
+import std.format;
 import std.process;
 import raylib;
 
@@ -29,6 +30,15 @@ void main() {
 
     while (!raylib.WindowShouldClose()) {
         raylib.BeginDrawing();
+
+        term.setColor(WHITE);
+        term.setCursor(Point(0, 0));
+        term.setColor(WHITE);
+        term.print("guas ");
+        term.setColor(GREEN);
+        auto bips = ["/", "-", "\\", "|"];
+        auto ch = bips[(renderer._frame / 2) % 4];
+        term.print(format("vterm engine: %s", ch));
 
         renderer.render();
 

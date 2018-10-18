@@ -1,7 +1,6 @@
 module guas.graphics.terminal;
 
 import std.string;
-import std.format;
 import raylib;
 import raymath;
 
@@ -59,16 +58,6 @@ class Terminal {
         // draw cursor
         raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charSize, _bounds.y + _cur.y * _renderer._font.charSize,
            cast(int) ( _renderer._font.charSize * 0.7), _renderer._font.charSize, _col);
-
-        setCursor(Point(0, 0));
-
-        // _renderer.drawText("welcome to caustic", Vector2(_bounds.x, _bounds.y), _col);
-        setColor(WHITE);
-        print("guas ");
-        setColor(GREEN);
-        auto bips = ["/", "-", "\\", "|"];
-        auto ch = bips[(_renderer._frame / 2) % 4];
-        print(format("vterm engine: %s", ch));
     }
 
     void setCursor(Point pos) {
