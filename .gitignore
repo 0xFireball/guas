@@ -11,5 +11,6 @@ weebug.lib
 weebug-test-*
 *.exe
 *.o
+*.lib
 *.obj
 *.lst
