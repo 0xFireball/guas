@@ -22,7 +22,7 @@ class Terminal {
     Array!Frame _frames;
 
     struct TermChar {
-        char ch;
+        ubyte ch;
         Color col;
         Color bg;
     }
@@ -65,7 +65,7 @@ class Terminal {
                 Vector2(_bounds.x + cx * _renderer._font.charWidth, _bounds.y + cy * _renderer._font.charHeight),
                 _buf[i].col);
         }
-
+        _renderer.drawChar(219, Vector2(0, 0), WHITE);
         // draw cursor
         auto cursorCol = _col;
         cursorCol.a = cast(ubyte) (128 + 127 * sin(_renderer._frame / 5f));

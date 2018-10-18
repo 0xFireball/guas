@@ -51,7 +51,7 @@ class Renderer {
         _term = term;
     }
 
-    void drawChar(char charId, Vector2 pos, Color color = WHITE) {
+    void drawChar(ubyte charId, Vector2 pos, Color color = WHITE) {
         auto fontX = charId % _font.gridSize;
         auto fontY = charId / _font.gridSize;
         raylib.DrawTextureRec(_font.texture,
