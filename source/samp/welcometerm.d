@@ -16,8 +16,9 @@ class WelcomeTerminal : Terminal {
     override void update() {
         if (_renderer._frame == 0) {
             this.setColor(WHITE);
-            this.setBg(BLACK);
+            this.setBg(PURPLE);
             this.setCursor(Point(0, 0));
+            this.setBg(BLACK);
             this.setColor(WHITE);
             this.print("guas ");
             this.setColor(GRAY);
@@ -26,12 +27,11 @@ class WelcomeTerminal : Terminal {
             this.print("[engine]");
             Frame frame = new Frame(this, Rect(0, 10, 16, 8));
             frame.outline(GREEN);
+            frame.fill(GRAY);
             this._frames.insertBack(frame);
             this.setCursor(Point(0, 10));
             this.setColor(GREEN);
-            this.setBg(BLUE);
             this.print("frames.\n");
-            this.setBg(BLACK);
             this.print("$5 - keyboard");
         }
         if (_renderer._frame == Renderer.framerate * 3) {

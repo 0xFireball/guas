@@ -92,11 +92,20 @@ class Terminal {
         _bg = col;
     }
 
+    TermChar[] getBuffer() {
+        return _buf;
+    }
+
+    pragma(inline):
+    int bufIndex(Point pos) {
+        return pos.y * _dimens.x + pos.x;
+    }
+
     void clear() {
         _cur = Point(0, 0);
         // clear buffer
         for (int i = 0; i < _buf.length; i++) {
-            _buf[i] = TermChar(0, _col, _bg);
+            _buf[_cur.y * _dimens.x + _cur.x] = TermChar(0, _col, _bg);
         }
     }
 
