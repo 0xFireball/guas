@@ -11,7 +11,7 @@ import guas.resources;
 import guas.math.point;
 import guas.graphics.terminal;
 
-import guas.samp.welcometerm;
+import guas.samp.demorogterm;
 
 void main() {
 	writefln("guas [engine] v%s", VERSION);
@@ -26,7 +26,7 @@ void main() {
     renderer.init();
     renderer.load();
 
-    auto term = new WelcomeTerminal(renderer, Point(88, 45));
+    auto term = new DemoRogTerm(renderer);
     term.init();
     renderer.setTerminal(term);
 

@@ -80,6 +80,10 @@ class Terminal {
 
     void update() { /* TODO */ }
 
+    void addFrame(Frame f) {
+        _frames.insertBack(f);
+    }
+
     void setCursor(Point pos) {
         _cur = pos;
     }

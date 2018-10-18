@@ -15,13 +15,12 @@ class WelcomeTerminal : Terminal {
 
     override void update() {
         if (_renderer._frame == 0) {
+            this.setCursor(Point(0, 0));
             this.setColor(WHITE);
             this.setBg(PURPLE);
-            this.setCursor(Point(0, 0));
-            this.setBg(BLACK);
-            this.setColor(WHITE);
             this.print("guas ");
             this.setColor(GRAY);
+            this.setBg(BLACK);
             this.print("vterm ");
             this.setColor(GREEN);
             this.print("[engine]");
@@ -31,12 +30,15 @@ class WelcomeTerminal : Terminal {
             this._frames.insertBack(frame);
             this.setCursor(Point(0, 10));
             this.setColor(GREEN);
+            this.setBg(BLUE);
             this.print("frames.\n");
+            this.setBg(GRAY);
             this.print("$5 - keyboard");
         }
         if (_renderer._frame == Renderer.framerate * 3) {
             this.setCursor(Point(0, 2));
             this.setColor(RED);
+            this.setBg(BLACK);
             this.print("---- transmission ----\n");
             this.setColor(GRAY);
             // yay douglas adams
