@@ -1,0 +1,12 @@
+# metadata
+name "guas"
+description "termlike ascii graphics game engine"
+authors "0xFireball"
+copyright "Copyright © 2018, 0xFireball"
+license "AGPLv3"
+
+# build options
+targetPath "bin"
+
+# dependencies
+dependency "raylib_d" version="~>2.0.3"

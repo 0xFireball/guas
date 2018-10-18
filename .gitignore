@@ -1,0 +1,15 @@
+bin/
+.dub
+docs.json
+__dummy.html
+docs/
+weebug.so
+weebug.dylib
+weebug.dll
+weebug.a
+weebug.lib
+weebug-test-*
+*.exe
+*.o
+*.obj
+*.lst
