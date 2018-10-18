@@ -26,7 +26,7 @@ void main() {
     renderer.init();
     renderer.load();
 
-    auto term = new WelcomeTerminal(renderer, Point(60, 45));
+    auto term = new WelcomeTerminal(renderer, Point(88, 45));
     term.init();
     renderer.setTerminal(term);
 

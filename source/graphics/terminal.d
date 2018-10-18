@@ -50,10 +50,9 @@ class Terminal {
     }
 
     void render() {
-        // TODO: do something useful
         enum int borderSize = 2;
         raylib.DrawRectangleLines(_bounds.x - borderSize, _bounds.y - borderSize,
-            _bounds.width + borderSize, _bounds.height + borderSize,
+            _bounds.width + borderSize * 2, _bounds.height + borderSize * 2,
             GetColor(0x158e15ff));
 
         // draw buffer

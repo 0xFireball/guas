@@ -3,7 +3,7 @@ module guas.resources;
 import std.format;
 import std.string : toStringz;
 
-enum string R_FONT = "font_12x12.png";
+enum string R_FONT = "font_8x12.png";
 
 class Resources {
     static string _root;
