@@ -9,7 +9,11 @@
             "request": "launch",
             "name": "debug (gdb)",
             "target": "./bin/guas",
-            "cwd": "${workspaceRoot}"
+            "cwd": "${workspaceRoot}",
+            "windows": {
+                "gdbpath": "C:\\D\\tools\\mago-mi.exe",
+                "target": "./bin/guas.exe"
+            }
         },
         {
             "name": "debug (lldb)",
