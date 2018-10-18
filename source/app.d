@@ -6,7 +6,6 @@ import raylib;
 
 import guas.meta;
 import guas.render;
-import guas.game.world;
 import guas.resources;
 import guas.math.point;
 import guas.graphics.terminal;
@@ -14,8 +13,7 @@ import guas.graphics.terminal;
 void main() {
 	writefln("guas [engine] v%s", VERSION);
 
-    auto world = new World();
-    auto renderer = new Renderer(world, Point(800, 600));
+    auto renderer = new Renderer(Point(800, 600));
 
     // TODO: read an engine configuration file for resolution, etc.
 

@@ -5,22 +5,19 @@ import std.string : fromStringz;
 import raylib;
 import raymath;
 
-import guas.game.world;
 import guas.graphics.termfont;
 import guas.graphics.terminal;
 import guas.resources;
 import guas.math.point;
 
 class Renderer {
-    World _world;
     Color _clearColor;
     Point _size;
     TermFont _font;
     Terminal _term;
     int _frame = 0;
 
-    this(World world, Point size) {
-        _world = world;
+    this(Point size) {
         // _clearColor = Color(240, 240, 240);
         _clearColor = Color(20, 20, 20);
         _size = size;
