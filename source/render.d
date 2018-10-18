@@ -15,6 +15,7 @@ class Renderer {
     Point _size;
     TermFont _font;
     Terminal _term;
+    enum int framerate = 30;
     int _frame = 0;
 
     this(Point size) {
@@ -26,7 +27,7 @@ class Renderer {
     /// initialize graphics context
     void init() {
         raylib.InitWindow(_size.x, _size.y, "guas");
-        raylib.SetTargetFPS(30);
+        raylib.SetTargetFPS(framerate);
     }
 
     /// load resources

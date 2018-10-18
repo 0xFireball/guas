@@ -63,6 +63,8 @@ class Terminal {
            cast(int) (_renderer._font.charSize * 0.7), _renderer._font.charSize, cursorCol);
     }
 
+    void update() { /* TODO */ }
+
     void setCursor(Point pos) {
         _cur = pos;
     }
@@ -83,7 +85,16 @@ class Terminal {
             //     Vector2(_bounds.x + cvpos.x, _bounds.y + cvpos.y),
             //     _col);
             _buf[_cur.y * _dimens.x + _cur.x] = TermChar(text[i], _col);
-            _cur.x += 1;
+            // special characters
+            switch (text[i]) {
+                default:
+                    _cur.x += 1;
+                    break;
+                case '\n':
+                    _cur.x = 0;
+                    _cur.y += 1;
+                    break;
+            }
             // wrap
             if (_cur.x > _dimens.x) {
                 _cur.y += 1;

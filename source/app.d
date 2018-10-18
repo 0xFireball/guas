@@ -11,6 +11,8 @@ import guas.resources;
 import guas.math.point;
 import guas.graphics.terminal;
 
+import guas.samp.welcometerm;
+
 void main() {
 	writefln("guas [engine] v%s", VERSION);
 
@@ -24,24 +26,15 @@ void main() {
     renderer.init();
     renderer.load();
 
-    auto term = new Terminal(renderer, Point(60, 45));
+    auto term = new WelcomeTerminal(renderer, Point(60, 45));
     term.init();
     renderer.setTerminal(term);
 
     while (!raylib.WindowShouldClose()) {
+        term.update();
+
         raylib.BeginDrawing();
-
-        term.setColor(WHITE);
-        term.setCursor(Point(2, 2));
-        term.setColor(WHITE);
-        term.print("guas ");
-        term.setColor(GRAY);
-        term.print("vterm ");
-        term.setColor(GREEN);
-        term.print("[engine]");
-
         renderer.render();
-
         raylib.EndDrawing();
     }
 }
