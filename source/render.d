@@ -34,8 +34,12 @@ class Renderer {
     void load() {
         _font = TermFont(
             raylib.LoadTexture(Resources.path(R_FONT)),
-            16, 8, 12
+            16, 12, 12
         );
+        // _font = TermFont(
+        //     raylib.LoadTexture(Resources.path(R_FONT)),
+        //     16, 8, 12
+        // );
     }
 
     void render() {
