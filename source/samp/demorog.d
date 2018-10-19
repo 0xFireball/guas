@@ -1,4 +1,4 @@
-module guas.samp.demorogterm;
+module guas.samp.demorog;
 
 import std.stdio;
 import raylib;
@@ -9,17 +9,24 @@ import guas.math.rect;
 import guas.graphics.terminal;
 import guas.graphics.frame;
 
-class DemoRogTerm : Terminal {
+class DemoRog {
     int _counter = 0;
     Point mapSize;
     int[] map;
     Point playerPos;
+    Terminal screen;
+    // Terminal gui;
 
     this(Renderer renderer) {
-        super(renderer, Point(60, 46));
-        this.cursorVisible = false;
+        screen = new Terminal(renderer, Point(60, 46));
+        screen.cursorVisible = false;
+        renderer.addTerminal(screen);
         mapSize = Point(20, 20);
         map = new int[mapSize.x * mapSize.y];
+    }
+
+    void init() {
+        screen.init();
         map = [
             2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
@@ -50,7 +57,9 @@ class DemoRogTerm : Terminal {
         return pos.y * mapSize.x + pos.x;
     }
 
-    override void update() {
+    void update() {
+        screen.update();
+
         _counter++;
 
         Point newPos = playerPos;
@@ -68,74 +77,75 @@ class DemoRogTerm : Terminal {
         if (newPosTile == 0) {
             playerPos = newPos;
         }
+
+        draw();
     }
 
-    override void render() {
-        super.render();
-
-        drawSidebar();
+    /// draw to the terminal
+    void draw() {
+        // drawSidebar();
         drawField();
 
         // print field
-        this.setCursor(Point(0, 0));
+        screen.setCursor(Point(0, 0));
 
         // draw the field
         for (int y = 0; y < mapSize.y; y++) {
             for (int x = 0; x < mapSize.x; x++) {
-                this.setColor(GREEN);
-                this.setBg(BLACK);
+                screen.setColor(GREEN);
+                screen.setBg(BLACK);
                 int dch = map[mapIndex(Point(x, y))];
                 switch (dch) {
                     case 0:
-                        this.print(".");
+                        screen.print(".");
                         break;
                     case 1:
-                        this.print("\xDB");
+                        screen.print("\xDB");
                         break;
                     case 2:
-                        this.print("\xFE");
+                        screen.print("\xFE");
                         break;
                     default:
-                        this.print("?");
+                        screen.print("?");
                         break;
                 }
             }
-            print("\n");
+            screen.print("\n");
         }
 
         // draw the player
-        this.setCursor(playerPos);
-        this.print("@");
+        screen.setCursor(playerPos);
+        screen.print("@");
     }
 
-    private void drawSidebar() {
-        Frame sidebar = new Frame(this, Rect(44, 0, 16, this._dimens.y));
-        sidebar.outline(GRAY);
-        sidebar.fill(DARKGRAY);
-        this.addFrame(sidebar);
+    // private void drawSidebar() {
+    //     Frame sidebar = new Frame(this, Rect(44, 0, 16, screen._dimens.y));
+    //     sidebar.outline(GRAY);
+    //     sidebar.fill(DARKGRAY);
+    //     screen.addFrame(sidebar);
 
-        this.setCursor(Point(sidebar.bounds.x, sidebar.bounds.y));
-        this.setColor(GREEN);
-        this.setBg(BLUE);
-        this.print("fake rogue.\n");
-        this.setBg(DARKGRAY);
-        this._cur.x = sidebar.bounds.x;
-        this.print("HP: [14 / 15]\n");
-        this._cur.x = sidebar.bounds.x;
-        this.print("STR: 8\n");
-        this._cur.x = sidebar.bounds.x;
-        this.print("INT: 12\n");
-        this._cur.x = sidebar.bounds.x;
-        this.print("PER: 10\n");
-        this._cur.x = sidebar.bounds.x;
-        this.print("DEX: 9\n");
-    }
+    //     screen.setCursor(Point(sidebar.bounds.x, sidebar.bounds.y));
+    //     screen.setColor(GREEN);
+    //     screen.setBg(BLUE);
+    //     screen.print("fake rogue.\n");
+    //     screen.setBg(DARKGRAY);
+    //     screen._cur.x = sidebar.bounds.x;
+    //     screen.print("HP: [14 / 15]\n");
+    //     screen._cur.x = sidebar.bounds.x;
+    //     screen.print("STR: 8\n");
+    //     screen._cur.x = sidebar.bounds.x;
+    //     screen.print("INT: 12\n");
+    //     screen._cur.x = sidebar.bounds.x;
+    //     screen.print("PER: 10\n");
+    //     screen._cur.x = sidebar.bounds.x;
+    //     screen.print("DEX: 9\n");
+    // }
 
     private void drawField() {
         // draw screen
-        Frame field = new Frame(this, Rect(0, 0, 44, this._dimens.y));
+        Frame field = new Frame(screen, Rect(0, 0, 44, screen._dimens.y));
         field.outline(GREEN);
         field.fill(BLACK);
-        this.addFrame(field);
+        screen.addFrame(field);
     }
 }

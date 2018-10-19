@@ -1,6 +1,7 @@
 module guas.render;
 
 import std.stdio;
+import std.container.array;
 import std.string : fromStringz;
 import raylib;
 import raymath;
@@ -14,7 +15,7 @@ class Renderer {
     Color _clearColor;
     Point _size;
     TermFont _font;
-    Terminal _term;
+    Terminal[] _terms;
     enum int framerate = 30;
     int _frame = 0;
 
@@ -46,13 +47,13 @@ class Renderer {
         raylib.ClearBackground(_clearColor);
         _frame++;
 
-        if (_term !is null) {
-            _term.render();
+        foreach (Terminal term; _terms) {
+            term.render();
         }
     }
 
-    void setTerminal(Terminal term) {
-        _term = term;
+    void addTerminal(Terminal term) {
+        _terms ~= term;
     }
 
     void drawChar(ubyte charId, Vector2 pos, Color color = WHITE) {

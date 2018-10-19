@@ -27,7 +27,7 @@ class WelcomeTerminal : Terminal {
             Frame frame = new Frame(this, Rect(0, 10, 16, 8));
             frame.outline(GREEN);
             frame.fill(GRAY);
-            this._frames.insertBack(frame);
+            this.addFrame(frame);
             this.setCursor(Point(0, 10));
             this.setColor(GREEN);
             this.setBg(BLUE);

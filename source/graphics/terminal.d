@@ -19,7 +19,7 @@ class Terminal {
     Color _col;
     Color _bg;
     TermChar[] _buf;
-    Array!Frame _frames;
+    Frame[] _frames;
 
     // - options
     bool cursorVisible = true;
@@ -29,6 +29,8 @@ class Terminal {
         Color col;
         Color bg;
     }
+
+    this() {}
 
     this(Renderer renderer, Point dimens) {
         _renderer = renderer;
@@ -49,7 +51,6 @@ class Terminal {
             size.y
         );
         _buf = new TermChar[_dimens.x * _dimens.y];
-        _frames = Array!Frame();
     }
 
     void render() {
@@ -68,7 +69,7 @@ class Terminal {
                 Vector2(_bounds.x + cx * _renderer._font.charWidth, _bounds.y + cy * _renderer._font.charHeight),
                 _buf[i].col);
         }
-        _renderer.drawChar(219, Vector2(0, 0), WHITE);
+
         // draw cursor
         if (cursorVisible) {
             auto cursorCol = _col;
@@ -86,7 +87,7 @@ class Terminal {
     void update() { /* TODO */ }
 
     void addFrame(Frame f) {
-        _frames.insertBack(f);
+        _frames ~= f;
     }
 
     void setCursor(Point pos) {

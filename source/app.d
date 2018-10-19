@@ -11,7 +11,7 @@ import guas.resources;
 import guas.math.point;
 import guas.graphics.terminal;
 
-import guas.samp.demorogterm;
+import guas.samp.demorog;
 
 void main() {
 	writefln("guas [engine] v%s", VERSION);
@@ -26,12 +26,11 @@ void main() {
     renderer.init();
     renderer.load();
 
-    auto term = new DemoRogTerm(renderer);
-    term.init();
-    renderer.setTerminal(term);
+    auto demo = new DemoRog(renderer);
+    demo.init();
 
     while (!raylib.WindowShouldClose()) {
-        term.update();
+        demo.update();
 
         raylib.BeginDrawing();
         renderer.render();
