@@ -19,23 +19,35 @@ class DemoRog {
     int[] map;
     Point playerPos;
     Terminal screen;
-    // Terminal gui;
+    Terminal gui;
 
     this(Renderer renderer) {
         _renderer = renderer;
-        screen = new Terminal(renderer, Point(60, 46));
+        screen = new Terminal(renderer, Point(40, 46));
         screen.cursorVisible = false;
+        gui = new Terminal(renderer, Point(20, 46));
         mapSize = Point(20, 20);
     }
 
     void init() {
-        TermFont font = TermFont(
+        TermFont font12x12 = TermFont(
             raylib.LoadTexture(Resources.path(R_FONT_12x12)),
             16, 12, 12
         );
-        screen.loadFont(font);
+        TermFont font8x12 = TermFont(
+            raylib.LoadTexture(Resources.path(R_FONT_8x12)),
+            16, 8, 12
+        );
+        // set up screen terminal
+        screen.loadFont(font12x12);
         screen.init();
+        screen.outline(GetColor(0x158e15ff));
         _renderer.addTerminal(screen, Vector2(16, 16));
+        // set up gui terminal
+        gui.loadFont(font8x12);
+        gui.outline(GRAY);
+        gui.init();
+        _renderer.addTerminal(gui, Vector2(screen._bounds.x + screen._bounds.width + 8, screen._bounds.y));
         // set up map
         map = new int[mapSize.x * mapSize.y];
         map = [
@@ -94,7 +106,7 @@ class DemoRog {
 
     /// draw to the terminal
     void draw() {
-        // drawSidebar();
+        drawSidebar();
         drawField();
 
         // print field
@@ -129,32 +141,32 @@ class DemoRog {
         screen.print("@");
     }
 
-    // private void drawSidebar() {
-    //     Frame sidebar = new Frame(this, Rect(44, 0, 16, screen._dimens.y));
-    //     sidebar.outline(GRAY);
-    //     sidebar.fill(DARKGRAY);
-    //     screen.addFrame(sidebar);
+    private void drawSidebar() {
+        Frame sidebar = new Frame(gui, Rect(0, 0, gui._dimens.x, gui._dimens.y));
+        sidebar.outline(GRAY);
+        sidebar.fill(DARKGRAY);
+        gui.addFrame(sidebar);
 
-    //     screen.setCursor(Point(sidebar.bounds.x, sidebar.bounds.y));
-    //     screen.setColor(GREEN);
-    //     screen.setBg(BLUE);
-    //     screen.print("fake rogue.\n");
-    //     screen.setBg(DARKGRAY);
-    //     screen._cur.x = sidebar.bounds.x;
-    //     screen.print("HP: [14 / 15]\n");
-    //     screen._cur.x = sidebar.bounds.x;
-    //     screen.print("STR: 8\n");
-    //     screen._cur.x = sidebar.bounds.x;
-    //     screen.print("INT: 12\n");
-    //     screen._cur.x = sidebar.bounds.x;
-    //     screen.print("PER: 10\n");
-    //     screen._cur.x = sidebar.bounds.x;
-    //     screen.print("DEX: 9\n");
-    // }
+        gui.setCursor(Point(sidebar.bounds.x, sidebar.bounds.y));
+        gui.setColor(GREEN);
+        gui.setBg(BLUE);
+        gui.print("fake rogue.\n");
+        gui.setBg(DARKGRAY);
+        gui._cur.x = sidebar.bounds.x;
+        gui.print("HP: [14 / 15]\n");
+        gui._cur.x = sidebar.bounds.x;
+        gui.print("STR: 8\n");
+        gui._cur.x = sidebar.bounds.x;
+        gui.print("INT: 12\n");
+        gui._cur.x = sidebar.bounds.x;
+        gui.print("PER: 10\n");
+        gui._cur.x = sidebar.bounds.x;
+        gui.print("DEX: 9\n");
+    }
 
     private void drawField() {
         // draw screen
-        Frame field = new Frame(screen, Rect(0, 0, 44, screen._dimens.y));
+        Frame field = new Frame(screen, Rect(0, 0, 40, screen._dimens.y));
         field.outline(GREEN);
         field.fill(BLACK);
         screen.addFrame(field);

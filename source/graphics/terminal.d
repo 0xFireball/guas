@@ -21,6 +21,7 @@ class Terminal {
     Point _renderSize;
     Rect _bounds;
     Point _cur;
+    Color _outline;
     Color _col;
     Color _bg;
     TermChar[] _buf;
@@ -73,7 +74,7 @@ class Terminal {
         enum int borderSize = 2;
         raylib.DrawRectangleLines(_bounds.x - borderSize, _bounds.y - borderSize,
             _bounds.width + borderSize * 2, _bounds.height + borderSize * 2,
-            GetColor(0x158e15ff));
+            _outline);
 
         // draw buffer
         for (int i = 0; i < _buf.length; i++) {
@@ -104,6 +105,10 @@ class Terminal {
 
     void addFrame(Frame f) {
         _frames ~= f;
+    }
+
+    void outline(Color col) {
+        _outline = col;
     }
 
     void setCursor(Point pos) {
