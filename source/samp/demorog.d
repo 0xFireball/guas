@@ -20,7 +20,7 @@ class DemoRog {
     this(Renderer renderer) {
         screen = new Terminal(renderer, Point(60, 46));
         screen.cursorVisible = false;
-        renderer.addTerminal(screen);
+        renderer.addTerminal(screen, Vector2(16, 16));
         mapSize = Point(20, 20);
         map = new int[mapSize.x * mapSize.y];
     }

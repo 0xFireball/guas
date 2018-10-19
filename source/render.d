@@ -52,8 +52,10 @@ class Renderer {
         }
     }
 
-    void addTerminal(Terminal term) {
+    void addTerminal(Terminal term, Vector2 pos = Vector2(0, 0)) {
         _terms ~= term;
+        term._offset = pos;
+        term.updateBounds();
     }
 
     void drawChar(ubyte charId, Vector2 pos, Color color = WHITE) {

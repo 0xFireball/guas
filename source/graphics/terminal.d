@@ -13,7 +13,9 @@ import guas.math.rect;
 
 class Terminal {
     Renderer _renderer;
+    Vector2 _offset;
     Point _dimens;
+    Point _renderSize;
     Rect _bounds;
     Point _cur;
     Color _col;
@@ -32,9 +34,10 @@ class Terminal {
 
     this() {}
 
-    this(Renderer renderer, Point dimens) {
+    this(Renderer renderer, Point dimens, Vector2 offset = Vector2(0, 0)) {
         _renderer = renderer;
         _dimens = dimens;
+        _offset = offset;
     }
 
     pragma(inline):
@@ -42,15 +45,20 @@ class Terminal {
 
     /// initializes graphics for the terminal
     void init() {
-        // draw centered terminal outline
-        Point size = Point(_dimens.x * _renderer._font.charWidth, _dimens.y * _renderer._font.charHeight);
-        _bounds = Rect(
-            cast(int) (_renderer._size.x / 2f - size.x / 2f),
-            cast(int) (_renderer._size.y / 2f - size.y / 2f),
-            size.x,
-            size.y
-        );
+        _renderSize = Point(_dimens.x * _renderer._font.charWidth, _dimens.y * _renderer._font.charHeight);
         _buf = new TermChar[_dimens.x * _dimens.y];
+        updateBounds();
+    }
+
+    void updateBounds() {
+        _bounds = Rect(
+            // cast(int) (_renderer._size.x / 2f - size.x / 2f),
+            // cast(int) (_renderer._size.y / 2f - size.y / 2f),
+            cast(int) (_offset.x),
+            cast(int) (_offset.y),
+            _renderSize.x,
+            _renderSize.y
+        );
     }
 
     void render() {
