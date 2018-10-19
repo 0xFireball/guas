@@ -21,6 +21,9 @@ class Terminal {
     TermChar[] _buf;
     Array!Frame _frames;
 
+    // - options
+    bool cursorVisible = true;
+
     struct TermChar {
         ubyte ch;
         Color col;
@@ -67,10 +70,12 @@ class Terminal {
         }
         _renderer.drawChar(219, Vector2(0, 0), WHITE);
         // draw cursor
-        auto cursorCol = _col;
-        cursorCol.a = cast(ubyte) (128 + 127 * sin(_renderer._frame / 5f));
-        raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charWidth, _bounds.y + _cur.y * _renderer._font.charHeight,
-           cast(int) (_renderer._font.charWidth * 0.9), _renderer._font.charHeight, cursorCol);
+        if (cursorVisible) {
+            auto cursorCol = _col;
+            cursorCol.a = cast(ubyte) (128 + 127 * sin(_renderer._frame / 5f));
+            raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charWidth, _bounds.y + _cur.y * _renderer._font.charHeight,
+            cast(int) (_renderer._font.charWidth * 0.9), _renderer._font.charHeight, cursorCol);
+        }
 
         // draw frames
         foreach (Frame f; _frames) {

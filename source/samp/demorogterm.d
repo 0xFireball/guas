@@ -17,6 +17,7 @@ class DemoRogTerm : Terminal {
 
     this(Renderer renderer) {
         super(renderer, Point(60, 46));
+        this.cursorVisible = false;
         mapSize = Point(20, 20);
         map = new int[mapSize.x * mapSize.y];
         map = [
