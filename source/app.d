@@ -24,7 +24,6 @@ void main() {
     Resources.setPath("res/");
 
     renderer.init();
-    renderer.load();
 
     auto demo = new DemoRog(renderer);
     demo.init();

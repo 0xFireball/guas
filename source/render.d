@@ -14,7 +14,6 @@ import guas.math.point;
 class Renderer {
     Color _clearColor;
     Point _size;
-    TermFont _font;
     Terminal[] _terms;
     enum int framerate = 30;
     int _frame = 0;
@@ -29,18 +28,6 @@ class Renderer {
     void init() {
         raylib.InitWindow(_size.x, _size.y, "guas");
         raylib.SetTargetFPS(framerate);
-    }
-
-    /// load resources
-    void load() {
-        _font = TermFont(
-            raylib.LoadTexture(Resources.path(R_FONT)),
-            16, 12, 12
-        );
-        // _font = TermFont(
-        //     raylib.LoadTexture(Resources.path(R_FONT)),
-        //     16, 8, 12
-        // );
     }
 
     void render() {
@@ -58,19 +45,19 @@ class Renderer {
         term.updateBounds();
     }
 
-    void drawChar(ubyte charId, Vector2 pos, Color color = WHITE) {
-        auto fontX = charId % _font.gridSize;
-        auto fontY = charId / _font.gridSize;
-        raylib.DrawTextureRec(_font.texture,
-            Rectangle(fontX * _font.charWidth, fontY * _font.charHeight, _font.charWidth, _font.charHeight),
+    void drawChar(TermFont font, ubyte charId, Vector2 pos, Color color = WHITE) {
+        auto fontX = charId % font.gridSize;
+        auto fontY = charId / font.gridSize;
+        raylib.DrawTextureRec(font.texture,
+            Rectangle(fontX * font.charWidth, fontY * font.charHeight, font.charWidth, font.charHeight),
             pos, color);
     }
 
-    void drawText(string text, Vector2 pos, Color color = WHITE, float spacing = 1) {
+    void drawText(TermFont font, string text, Vector2 pos, Color color = WHITE, float spacing = 1) {
         Vector2 offset = Vector2(0, 0);
         for (int i = 0; i < text.length; i++) {
-            drawChar(text[i], Vector2Add(pos, offset), color);
-            offset = Vector2Add(offset, Vector2(cast(int) (_font.charWidth * spacing), 0));
+            drawChar(font, text[i], Vector2Add(pos, offset), color);
+            offset = Vector2Add(offset, Vector2(cast(int) (font.charWidth * spacing), 0));
         }
     }
 }

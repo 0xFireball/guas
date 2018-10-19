@@ -7,12 +7,15 @@ import raylib;
 import raymath;
 
 import guas.render;
+import guas.graphics.termfont;
 import guas.graphics.frame;
 import guas.math.point;
 import guas.math.rect;
 
 class Terminal {
     Renderer _renderer;
+    TermFont _font;
+
     Vector2 _offset;
     Point _dimens;
     Point _renderSize;
@@ -41,13 +44,18 @@ class Terminal {
     }
 
     pragma(inline):
-    Point charSize() { return Point(_renderer._font.charWidth, _renderer._font.charHeight); }
+    Point charSize() { return Point(_font.charWidth, _font.charHeight); }
 
     /// initializes graphics for the terminal
     void init() {
-        _renderSize = Point(_dimens.x * _renderer._font.charWidth, _dimens.y * _renderer._font.charHeight);
+        _renderSize = Point(_dimens.x * _font.charWidth, _dimens.y * _font.charHeight);
         _buf = new TermChar[_dimens.x * _dimens.y];
         updateBounds();
+    }
+
+    /// load font
+    void loadFont(TermFont font) {
+        _font = font;
     }
 
     void updateBounds() {
@@ -71,10 +79,10 @@ class Terminal {
         for (int i = 0; i < _buf.length; i++) {
             auto cx = i % _dimens.x;
             auto cy = i / _dimens.x;
-            raylib.DrawRectangle(_bounds.x + cx * _renderer._font.charWidth, _bounds.y + cy * _renderer._font.charHeight,
-                _renderer._font.charWidth, _renderer._font.charHeight, _buf[i].bg);
-            _renderer.drawChar(_buf[i].ch,
-                Vector2(_bounds.x + cx * _renderer._font.charWidth, _bounds.y + cy * _renderer._font.charHeight),
+            raylib.DrawRectangle(_bounds.x + cx * _font.charWidth, _bounds.y + cy * _font.charHeight,
+                _font.charWidth, _font.charHeight, _buf[i].bg);
+            _renderer.drawChar(_font, _buf[i].ch,
+                Vector2(_bounds.x + cx * _font.charWidth, _bounds.y + cy * _font.charHeight),
                 _buf[i].col);
         }
 
@@ -82,8 +90,8 @@ class Terminal {
         if (cursorVisible) {
             auto cursorCol = _col;
             cursorCol.a = cast(ubyte) (128 + 127 * sin(_renderer._frame / 5f));
-            raylib.DrawRectangle(_bounds.x + _cur.x * _renderer._font.charWidth, _bounds.y + _cur.y * _renderer._font.charHeight,
-            cast(int) (_renderer._font.charWidth * 0.9), _renderer._font.charHeight, cursorCol);
+            raylib.DrawRectangle(_bounds.x + _cur.x * _font.charWidth, _bounds.y + _cur.y * _font.charHeight,
+            cast(int) (_font.charWidth * 0.9), _font.charHeight, cursorCol);
         }
 
         // draw frames
@@ -154,6 +162,6 @@ class Terminal {
 
     pragma(inline):
     private Vector2 getCurVpos() {
-        return Vector2(_cur.x * _renderer._font.charWidth, _cur.y * _renderer._font.charHeight);
+        return Vector2(_cur.x * _font.charWidth, _cur.y * _font.charHeight);
     }
 }

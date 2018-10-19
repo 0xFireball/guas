@@ -4,12 +4,16 @@ import std.stdio;
 import raylib;
 
 import guas.render;
+import guas.resources;
+import guas.graphics.termfont;
 import guas.math.point;
 import guas.math.rect;
 import guas.graphics.terminal;
 import guas.graphics.frame;
 
 class DemoRog {
+    Renderer _renderer;
+
     int _counter = 0;
     Point mapSize;
     int[] map;
@@ -18,15 +22,22 @@ class DemoRog {
     // Terminal gui;
 
     this(Renderer renderer) {
+        _renderer = renderer;
         screen = new Terminal(renderer, Point(60, 46));
         screen.cursorVisible = false;
-        renderer.addTerminal(screen, Vector2(16, 16));
         mapSize = Point(20, 20);
-        map = new int[mapSize.x * mapSize.y];
     }
 
     void init() {
+        TermFont font = TermFont(
+            raylib.LoadTexture(Resources.path(R_FONT_12x12)),
+            16, 12, 12
+        );
+        screen.loadFont(font);
         screen.init();
+        _renderer.addTerminal(screen, Vector2(16, 16));
+        // set up map
+        map = new int[mapSize.x * mapSize.y];
         map = [
             2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
